@@ -11,13 +11,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _gameOverGrp;
     [SerializeField] private GameObject _upgradeGrp;
     [SerializeField] private TMP_Text _scoreText;
-    
-    [Header("Targets")]
-    public List<GameObject> targetPrefabs;
+    [Header("Ref")]
+    [SerializeField] private Spawner _spawner;
 
     [Header("Game stuff")]
     [SerializeField] private int _score;
     public bool isGameActive = true;
+    [SerializeField] private int _playerHealth;
+
 
     private void Start() {
         Instance = this;
@@ -38,9 +39,14 @@ public class GameManager : MonoBehaviour
         _scoreText.text = $"SCORE: {_score}";
     }
 
+    public void ReduceHealth(int reduceAmount){
+        _playerHealth -= reduceAmount;
+    }
+
     public void StartGame(){
         _titleGrp.SetActive(false);
         isGameActive = true;
         _score = 0;
+        _spawner.StartSpawningTargets();
     }
 }
