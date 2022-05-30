@@ -1,34 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
-    [SerializeField] private float _spawnRate = 10;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private float spawnRate = 1;
 
 
     [Header("Targets")]
     public List<GameObject> spawnableTargets;
     public List<Target> spawnedTargets;
 
-    private void Start() {
-        if(_gameManager == null) _gameManager = GameManager.Instance;
+    private void Start()
+    {
+        if(gameManager == null) gameManager = GameManager.Instance;
+        gameManager.OnGameOver += ClearScene;
+        PlayerStats.OnUpdateInterval += UpdateSpawnInterval;
+    }
+
+    private void UpdateSpawnInterval(int intervalTime)
+    {
+        spawnRate = intervalTime;
+    }
+
+    private void ClearScene()
+    {
+        foreach (var target in spawnedTargets)
+        {
+            target.DestroyTarget();
+        }
+        spawnedTargets.Clear();
     }
 
     public void StartSpawningTargets(){
-        StartCoroutine("SpawnTargets");
+        StartCoroutine(nameof(SpawnTargets));
     }
 
-    IEnumerator SpawnTargets()
+    private IEnumerator SpawnTargets()
     {
-        while (_gameManager.isGameActive)
+        while (gameManager.isGameActive)
         {
             var i = Random.Range(0, spawnableTargets.Count); //Select radom target
             var targetGo = Instantiate(spawnableTargets[i]);
             var target = targetGo.GetComponent<Target>();
             AddSpawnedTarget(target);
-            yield return new WaitForSeconds(_spawnRate);
+            yield return new WaitForSeconds(spawnRate);
         }
     }
 
@@ -47,4 +66,8 @@ public class Spawner : MonoBehaviour
         spawnedTargets.Remove(target);
     }
 
+    private void OnDestroy()
+    {
+        PlayerStats.OnUpdateInterval -= UpdateSpawnInterval;
+    }
 }

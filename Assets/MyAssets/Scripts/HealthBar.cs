@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private TargetStats _unitStats;
+    [SerializeField] private TargetStats _targetStats;
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
     [SerializeField] private Color _damagedColor;
@@ -35,20 +35,15 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private GameObject _targetBody;
     [SerializeField] private Vector3 _offset = new Vector3(3, 0, 0);
 
-    private void LateUpdate()
-    {
-        transform.position = new Vector3(_targetBody.transform.position.x, _targetBody.transform.position.y, 0) + _offset;
-    }
-
     private void Start() {
         visuals.SetActive(false);
-        _unitStats.OnUnitDamaged += TakeDamage;
-        _unitStats.OnUnitHealed += TargetHealed;
-        _health = _unitStats.Health;
-        _maxHealth = _unitStats.MaxHealth;
+        _targetStats.OnUnitDamaged += TakeDamage;
+        _targetStats.OnUnitHealed += TargetHealed;
+        _health = _targetStats.Health;
+        _maxHealth = _targetStats.MaxHealth;
         _health = _maxHealth;
-        _damageTxt.text = $"{_unitStats.Damage}";
-        _healthTxt.text = $"{_unitStats.Health}";
+        _damageTxt.text = $"{_targetStats.Damage}";
+        _healthTxt.text = $"{_targetStats.Health}";
     }
 
 
@@ -93,8 +88,8 @@ public class HealthBar : MonoBehaviour
     private void UnitRevived()
     {
         visuals.SetActive(true);
-        _health = _unitStats.Health;
-        _maxHealth = _unitStats.MaxHealth;
+        _health = _targetStats.Health;
+        _maxHealth = _targetStats.MaxHealth;
         _health = _maxHealth;
         chipHealthBar.color = _healedColor;
         _lerpTimer = 0f;
@@ -122,12 +117,12 @@ public class HealthBar : MonoBehaviour
     }
 
     private void UpdateHealthValue(){
-        _healthTxt.text = $"{Mathf.Clamp(_health, 0, _unitStats.MaxHealth)}";
+        _healthTxt.text = $"{Mathf.Clamp(_health, 0, _targetStats.MaxHealth)}";
     }
 
     private void OnDestroy() {
-        _unitStats.OnUnitDamaged -= TakeDamage;
-        _unitStats.OnUnitHealed -= TargetHealed;
+        _targetStats.OnUnitDamaged -= TakeDamage;
+        _targetStats.OnUnitHealed -= TargetHealed;
     }
 
     [ContextMenu("Deal Damage")]

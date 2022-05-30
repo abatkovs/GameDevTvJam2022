@@ -1450,6 +1450,7 @@ GameObject:
   - component: {fileID: 5077470367900683431}
   - component: {fileID: 2364898227231859741}
   - component: {fileID: 4843713946859694231}
+  - component: {fileID: 5255749050466718583}
   m_Layer: 0
   m_Name: TargetCharacter
   m_TagString: Untagged
@@ -1522,18 +1523,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9149257a8de79c4e94c224f7ae11fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 5077470367900683431}
-  _gameManager: {fileID: 0}
-  _targetType: 1
-  _targetStats: {fileID: 0}
-  _destroyParticles: {fileID: 0}
-  _testPF: {fileID: 7258791884042220618, guid: 0e86d3bf0127c8e47ba53959f89711db, type: 3}
-  _upForceMin: 16
-  _upForceMax: 30
-  _torqueForce: 5
-  _spawnAreaLimit: 20
-  _pointValue: 5
-  _spawnOffset: -15
+  rb: {fileID: 5077470367900683431}
+  gameManager: {fileID: 0}
+  targetType: 1
+  targetStats: {fileID: 4843713946859694231}
+  destroyParticles: {fileID: 2682934492270112876, guid: 011a69fe2606b2b4280bc502f31e011e,
+    type: 3}
+  hitParticles: {fileID: 3620541311046656806, guid: a1faae7992147394ca069f06d46fef53,
+    type: 3}
+  audioSource: {fileID: 5255749050466718583}
+  audioClip: {fileID: 8300000, guid: c9eea30d360d8ad4d8f104a61739c607, type: 3}
+  upForceMin: 10
+  upForceMax: 28
+  torqueForce: 5
+  spawnAreaLimit: 20
+  pointValue: 5
+  spawnOffset: -15
 --- !u!114 &4843713946859694231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,7 +1553,104 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField: 10
   <MaxHealth>k__BackingField: 10
+  <Damage>k__BackingField: 10
   <IsDead>k__BackingField: 0
+--- !u!82 &5255749050466718583
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2926688762172199361}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c9eea30d360d8ad4d8f104a61739c607, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2926688762172199363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,7 +1703,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21c523da74de5e640b1b068246fd96e1, type: 2}
+  - {fileID: 2100000, guid: 2ec05224774020643b700cbd25a5edaa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
