@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private float spawnRate = 1;
+    [SerializeField] private int killedZombies;
 
 
     [Header("Targets")]
@@ -48,6 +49,7 @@ public class Spawner : MonoBehaviour
             var target = targetGo.GetComponent<Target>();
             AddSpawnedTarget(target);
             yield return new WaitForSeconds(spawnRate);
+            Debug.Log(Physics.gravity);
         }
     }
 
@@ -63,6 +65,8 @@ public class Spawner : MonoBehaviour
 
     public void RemoveSpawnedTarget(Target target){
         target.OnDeath -= TargetDied;
+        killedZombies++;
+        spawnRate -= (spawnRate * 0.08f);
         spawnedTargets.Remove(target);
     }
 
@@ -70,4 +74,12 @@ public class Spawner : MonoBehaviour
     {
         PlayerStats.OnUpdateInterval -= UpdateSpawnInterval;
     }
+
+    public void ResetStats()
+    {
+        killedZombies = 0;
+        spawnRate = gameManager.PlayerStats.SpawnInterval;
+    }
+
+    public int GetKilledZombies() => killedZombies;
 }

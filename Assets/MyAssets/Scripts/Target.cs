@@ -68,7 +68,7 @@ public class Target : MonoBehaviour, IPointerClickHandler
 
     private void RandomForceOnClick(Vector3 force, float forceModifier = 0){
         rb.velocity = Vector3.zero;
-        var upForce = 1;
+        float upForce = 1 + (forceModifier * 0.3f);
         var shoveDir = new Vector3(force.x, upForce, force.z);
         //_rb.angularVelocity = Vector3.zero;
         //rb.AddForce(RandomForce(6, 18), ForceMode.Impulse);
@@ -90,7 +90,7 @@ public class Target : MonoBehaviour, IPointerClickHandler
         var hitPoint = rayResult.worldPosition;
         var position = transform.position;
         SpawnHurtParticles(hitPoint);
-        RandomForceOnClick(position - rayResult.worldPosition);
+        RandomForceOnClick(position - rayResult.worldPosition, gameManager.PlayerStats.Power);
         DealDamageToTarget(gameManager.PlayerStats.Damage);
         audioSource.PlayOneShot(audioClip);
     }

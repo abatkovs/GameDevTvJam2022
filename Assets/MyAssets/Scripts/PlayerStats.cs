@@ -11,9 +11,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int health;
     [field: SerializeField] public int MAXHealth { get; private set; } = 100;
     [field: SerializeField] public int Damage { get; private set; }
-    [SerializeField] private int power;
+    [field: SerializeField] public int Power { get; private set; }
     [SerializeField] private int hpRegen;
-    [SerializeField] private int spawnInterval;
+    [field: SerializeField] public int SpawnInterval { get; private set; }
     [field: SerializeField] public bool IsAlive { get; private set;}
 
     [Header("Visuals")]
@@ -46,6 +46,11 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int priceInterval;
     [SerializeField] private TMP_Text intervalTxt;
     [SerializeField] private TMP_Text intervalTxtPrice;
+    [SerializeField] private float gravityValue = 0;
+    [SerializeField] private int gravityUpgradeLvl = 1;
+    [SerializeField] private int priceGravity;
+    [SerializeField] private TMP_Text gravityTxt;
+    [SerializeField] private TMP_Text gravityTxtPrice;
     
     [SerializeField] private float healInterval = 5f;
     private float _healTimer;
@@ -138,10 +143,10 @@ public class PlayerStats : MonoBehaviour
     {
         int powerPriceMulti = 2000;
         if(pricePower > _gameManager.Score) return;
-        power += 1;
+        Power += 1;
         _gameManager.RemoveScore(pricePower);
-        pricePower = power * powerPriceMulti;
-        powerTxt.text = $"Amount: {power}";
+        pricePower = Power * powerPriceMulti;
+        powerTxt.text = $"Amount: {Power}";
         powerTxtPrice.text = $"Price: {pricePower}";
     }
 
@@ -160,11 +165,25 @@ public class PlayerStats : MonoBehaviour
     {
         int intervalPriceMulti = 100;
         if (priceInterval > _gameManager.Score) return;
-        spawnInterval += 1;
+        SpawnInterval += 1;
         _gameManager.RemoveScore(priceInterval);
-        priceInterval = spawnInterval * intervalPriceMulti;
-        OnUpdateInterval?.Invoke(spawnInterval);
-        intervalTxt.text = $"Amount: {spawnInterval}s";
+        priceInterval = SpawnInterval * intervalPriceMulti;
+        OnUpdateInterval?.Invoke(SpawnInterval);
+        intervalTxt.text = $"Amount: {SpawnInterval}s";
         intervalTxtPrice.text = $"Price: {priceInterval}";
+    }
+
+    public void ReduceGravity()
+    {
+        int gravityPriceMulti = 1000;
+        if (priceGravity > _gameManager.Score) return;
+        if (gravityUpgradeLvl >= 15) return;
+        gravityValue += 0.05f;
+        gravityUpgradeLvl++;
+        _gameManager.RemoveScore(priceGravity);
+        priceGravity = gravityUpgradeLvl * gravityPriceMulti;
+        gravityTxt.text = $"Amount: {gravityValue * 100}%";
+        gravityTxtPrice.text = $"Price: {priceGravity}";
+        _gameManager.SetGravity(_gameManager.defaultGravity - (_gameManager.defaultGravity * gravityValue));
     }
 }

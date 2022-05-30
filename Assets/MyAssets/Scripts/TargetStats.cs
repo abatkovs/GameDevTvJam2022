@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TargetStats : MonoBehaviour
 {
+    private GameManager _gameManager;
     [field: SerializeField] public int Health { get; private set; }
     [field: SerializeField] public int MaxHealth { get; private set; }
     [field: SerializeField] public int Damage { get; private set; } //damage dealt to player
@@ -13,7 +14,21 @@ public class TargetStats : MonoBehaviour
     public event Action<int> OnUnitDamaged;
     public event Action<int> OnUnitHealed;
 
-    private void Start() {
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+        SetZombieStats();
+    }
+
+    private void SetZombieStats()
+    {
+        var killedZombies = _gameManager.spawner.GetKilledZombies();
+        if ( killedZombies > 0)
+        {
+            MaxHealth = MaxHealth + killedZombies;
+            Damage = Damage + (killedZombies / 2);
+        }
+
         Health = MaxHealth;
     }
 

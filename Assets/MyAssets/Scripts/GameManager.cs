@@ -18,22 +18,39 @@ public class GameManager : MonoBehaviour
     [Header("Upgrade")] 
     [SerializeField] private TMP_Text upgradesText;
     [Header("Ref")]
-    [SerializeField] private Spawner spawner;
+    [SerializeField] public Spawner spawner;
 
     [Header("Game stuff")]
     public bool isGameActive = true;
     [field: SerializeField] public int Score { get; private set; }
-
-    
-
+    public float defaultTimeScale = 1f;
+    public Vector3 defaultGravity;
     [field: SerializeField] public PlayerStats PlayerStats { get; private set;}
 
     public event Action OnGameOver;
 
-    private void Start() {
+    private void Start()
+    {
+        defaultGravity = Physics.gravity;
+        defaultTimeScale = Time.timeScale;
         Instance = this;
         DisableAllUIGroups();
         titleGrp.SetActive(true);
+    }
+
+    public void SetTimeScale(float timeScale)
+    {
+        Time.timeScale = timeScale;
+    }
+
+    public void ResetTimeScale()
+    {
+        Time.timeScale = defaultTimeScale;
+    }
+
+    public void SetGravity(Vector3 newGravity)
+    {
+        Physics.gravity = newGravity;
     }
 
     private void DisableAllUIGroups(){
@@ -58,10 +75,10 @@ public class GameManager : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         Score += scoreToAdd;
-        UpdateScore();
+        UpdateScoreTxt();
     }
 
-    private void UpdateScore()
+    private void UpdateScoreTxt()
     {
         scoreText.text = $"SCORE: {Score}";
         scoreTextUpg.text = $"SCORE: {Score}";
@@ -70,13 +87,15 @@ public class GameManager : MonoBehaviour
     public void RemoveScore(int scoreToRemove)
     {
         Score -= scoreToRemove;
-        UpdateScore();
+        UpdateScoreTxt();
     }
 
-    public void StartGame(){
-        titleGrp.SetActive(false);
+    public void StartGame()
+    {
+        DisableAllUIGroups();
         isGameActive = true;
         Score = 0;
+        UpdateScoreTxt();
         spawner.StartSpawningTargets();
     }
 
@@ -95,5 +114,6 @@ public class GameManager : MonoBehaviour
         //Heal player
         StartGame();
         PlayerStats.HealDamage(PlayerStats.MAXHealth);
+        spawner.ResetStats();
     }
 }
