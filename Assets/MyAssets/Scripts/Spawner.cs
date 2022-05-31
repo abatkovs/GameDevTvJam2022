@@ -49,7 +49,6 @@ public class Spawner : MonoBehaviour
             var target = targetGo.GetComponent<Target>();
             AddSpawnedTarget(target);
             yield return new WaitForSeconds(spawnRate);
-            Debug.Log(Physics.gravity);
         }
     }
 
@@ -66,7 +65,7 @@ public class Spawner : MonoBehaviour
     public void RemoveSpawnedTarget(Target target){
         target.OnDeath -= TargetDied;
         killedZombies++;
-        spawnRate -= (spawnRate * 0.08f);
+        spawnRate -= (spawnRate * 0.02f);
         spawnedTargets.Remove(target);
     }
 

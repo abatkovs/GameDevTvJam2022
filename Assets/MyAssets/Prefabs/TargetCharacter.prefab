@@ -1888,6 +1888,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2926688762171837931}
   - component: {fileID: 2926688762171837930}
+  - component: {fileID: 8491812085477051289}
   m_Layer: 0
   m_Name: Hips
   m_TagString: Untagged
@@ -1927,6 +1928,19 @@ CapsuleCollider:
   m_Height: 0.03933777
   m_Direction: 1
   m_Center: {x: 0.000020146277, y: 0.0059073716, z: 0.0000000017463543}
+--- !u!65 &8491812085477051289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2926688762172199371}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.036059696, y: 0.042314496, z: 0.026329651}
+  m_Center: {x: -0.00023167829, y: 0.0056758896, z: -0.00023172925}
 --- !u!1 &2926688762172199373
 GameObject:
   m_ObjectHideFlags: 0

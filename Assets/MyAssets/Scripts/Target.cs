@@ -110,6 +110,7 @@ public class Target : MonoBehaviour, IPointerClickHandler
     }
 
     private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag("destroy")) return;
         Debug.Log("This triggers");
         if(targetType == TargetType.Zombie){
             //Do bad zombie stuff here
